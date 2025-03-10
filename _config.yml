@@ -1,0 +1,37 @@
+title: Alex Gould - Blog
+description: > # this means to ignore newlines until "baseurl:"
+  Personal technical blog sharing personal projects and thoughts on
+  data science, data engineering, machine learning, artificial intelligence.
+permalink: ':title/'
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+site-twitter: #if your site has a twitter account, enter it here
+
+# Author Settings
+author: Alex Gould # add your name
+author-img: main.png # add your photo
+about-author: Personal projects and thoughts about Data Science, Data Engineering, Machine Learning and Artificial Intelligence # add description
+social-twitter: null # add your Twitter handle
+social-facebook: null # add your Facebook handle
+social-github: alextgould # add your Github handle
+social-linkedin: alex-gould-profile # add your Linkedin handle
+social-email: alextgould@gmail.com # add your Email address
+
+# Disqus
+discus-identifier: # Discus identifier
+
+# Tracker
+analytics: # Google Analytics
+
+# Build Settings
+markdown: kramdown
+plugins:
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jemoji
+future: true # allow posts with future dates in the front matter to still be published (enabled for testing purposes)
+
+paginate: 8
+paginate_path: "/page/:num"
+
+exclude: ["node_modules", "gulpfile.js", "package.json", "yarn.lock"]
