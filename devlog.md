@@ -66,9 +66,17 @@ bundle exec jekyll serve
 git init # initialise Git tracking locally
 git add . # stage all files for commit
 git commit -m "Initial commit" # save current state
-git branch -M main # rename default branch to main
-git remote add origin <your-repo-url>
+git remote add origin https://github.com/alextgould/alextgould.github.io
 git push -u origin main # upload files to GitHub
 ```
+
+* Remote repo has the MIT licence in it, so need some extra commands in place of the final git push above which gives a "failed to push" error.
+
+```
+git fetch origin
+git merge origin/main --allow-unrelated-histories
+```
+
+This resulted in a merge conflict as the remote repo I created has MIT licence but the template I started with used GNU. I have to retain the GNU licence and not use the MIT licence.
 
 * https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site - 
