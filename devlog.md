@@ -7,6 +7,12 @@
 
 # Historical notes
 
+## Minor subsequent testing
+
+* Confirmed Github won't deploy when you commit to dev branch (so can edit posts and preview locally before merging with main)
+  - consider whether to use separate branches for each post or just have a dev branch? might be preferable to have multiple branches (can also have one for structural site changes)
+  - note changes in devlog such as these comments, which are made on the branches, won't be available on other branches and will need to be merged in periodically; less of an issue if everything's on the one dev branch?
+
 ## Initial setup (10/3/25)
 
 * Download Ruby and Devkit - for local testing
