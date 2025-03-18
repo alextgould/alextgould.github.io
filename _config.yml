@@ -10,7 +10,7 @@ site-twitter: #if your site has a twitter account, enter it here
 # Author Settings
 author: Alex Gould # add your name
 author-img: main.png # add your photo
-about-author: Personal projects and thoughts about Data Science, Data Engineering, Machine Learning and Artificial Intelligence # add description
+about-author: Personal projects and thoughts about Data Science and developing data-centric products # Personal projects and thoughts about Data Science, Data Engineering, Machine Learning and Artificial Intelligence # add description
 social-twitter: null # add your Twitter handle
 social-facebook: null # add your Facebook handle
 social-github: alextgould # add your Github handle

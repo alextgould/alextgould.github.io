@@ -65,7 +65,7 @@ With these long term goals in place, it became easier to define some short term 
 
 Here are my short term career goals: 
 
-1. **Depth and credibility** - Find a role where I can apply my broad knowledge of Data Science, Data Engineering, AI Engineering and/or Machine Learning to specific products or projects, to gain depth and credibility in these areas
+1. **Depth and credibility** - Apply my Data Science expertise to specific products/projects, to build a strong portfolio of case studies
 
 2. **Collaboration** - Work in a role where I can leverage my experience and interpersonal skills to build bridges between developers and other stakeholders
 
@@ -98,9 +98,13 @@ I won't share my "want to have" list. They mainly relate to flexibility, culture
 
 ## Specific skills
 
-A key feature of my career goals was the development of a flexible skillset and case studies to demonstrate these skills. Without wanting to be overly prescriptive, I thought it would be useful to be a more specific about what skills I'm looking to develop. Writing these down will help me better assess potential projects/roles and ensure they align with my goals. Broadly, they're the general IT knowledge that wraps around what I think of as Data Science:
+A key feature of my career goals was the development of a flexible skillset and case studies to demonstrate these skills. Without wanting to be overly prescriptive, I thought it would be useful to be a more specific about what skills I'm looking to develop. Writing these down will help me better assess potential projects/roles and ensure they align with my goals.
 
-* Data Engineering - prerequisite for Data Science and data-centric applications
+Firstly, I want to focus on building depth and credibility in the **machine learning** space (including generative AI). I have a good foundation of knowledge and some experience, but I need to work on more projects to gain confidence and build up a portfolio of interesting case studies.
+
+Secondly, I want to strengthen the general IT knowledge that wraps around what I think of as Data Science. I think this can happen over time, if I'm looking out for projects/roles/people that cover these aspects. There are three broad areas I'm interested in:
+
+* Data Engineering - prerequisite for Data Science and data-centric products
   - cloud-native services (e.g. AWS, GCP, Azure) - managing VMs, data storage, isolated networks, user/group security
   - creating and using APIs to move data between applications and various storage sites
   - creating data lakes, data warehouses and databases (i.e. having input into design decisions, rather than just using them)
@@ -114,27 +118,27 @@ A key feature of my career goals was the development of a flexible skillset and 
   - orchestration (e.g. Airflow)
 
 * Application development - to allow cool ideas/code/models to become real products
-  - programming languages (e.g. Go)
-  - rapid prototyping (e.g. Streamlit, Jekyll)
-  - web hosting (e.g. Nginx)
+  - languages besides Python (e.g. Go)
+  - backend APIs to serve ML models (e.g. FastAPI)
+  - web-based applications (e.g. Streamlit)
 
 Each of these areas can potentially make me a better Data Scientist; being able to do more yourself and/or collaborate more effectively with others involved in the broader process can only create more opportunities for interesting Data Science applications. They're also potentially good career paths in themselves.
 
 ## Next steps for me
 
-Despite feeling more confident in my career plan, I still need to figure out how to balance the time and energy required for my personal and home life with my career aspirations. I'm currently spending at least two hours a day driving the kids to and from school, with more time spent wrangling the kids, taking them to various activities, cooking meals and dealing with endless amounts of housework, gardening etc. I have also spent a good amount of my life playing video games recreationally and need to see if I can be more disciplined in channelling that time back into more productive activities.
+Despite feeling more confident in my career plan, I still need to figure out how to balance the time and energy required for my personal and home life with my career aspirations. I'm currently still spending a lot of time on family and personal activities, and I need to see if I can be more disciplined in channeling more of that into productive activities. A key piece of feedback given to me by multiple people was simply to *do something*, as anything is better than nothing. With so many potential directions, it's easy to spend too much time optimising and actually wind up doing nothing. 
 
 One of the main aims of this post was to make a **public** commitment - to increase the chance that I will succeed in my aspirations, by creating a personal sense of accountability and by increasing the number of people who might hold me accountable more directly.
 
 My intentions at this point are to:
 
-* create content for this blog, focusing my effort on creating bite-sized projects to gain/demonstrate skills (rather than spending 20 years trying to create artificial general intelligence in my basement) and make it easier to share what I've done with potential employers/clients and others in the space
+* create content for this blog, focusing my effort on creating bite-sized projects to gain and demonstrate skills (rather than spending 20 years trying to create artificial general intelligence in my basement) and make it easier to share what I've done with others
 
-* be more active in networking, attending meetups, and ideally leveraging my efforts by adapting blog posts for presentation at meetups or conferences
+* be more active in networking (e.g. attending meetups), leveraging my efforts by adapting blog posts for presenting at events
 
 * be more earnest in keeping on top of advertised roles, understanding the required skills and finding a way to demonstrate these, if not through my prior experience, then by creating projects which I can blog about
 
-It's still early days, but I'm optimistic that this "Plan B" for actually being employed will inevitably bring me closer to my long term career goals.
+It's still early days, but I'm optimistic that this approach will bring me closer to my long term career goals.
 
 ## Next steps for you
 
