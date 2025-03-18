@@ -1,10 +1,10 @@
 # Alex's blog repo
 
-![](assets/img/main.png)
+![](assets/img/testing/anime_god_4_wide.jpg)
 
 This blog uses the free Github Pages service and is rendered automatically using Jekyll whenever I commit to the main branch. The layout is based on the free [Flexible-Jekyll](https://github.com/artemsheludko/flexible-jekyll) template with a few changes.
 
-See [](devlog.md) for more details on how this was all set up - at some point I may write a blog post about this topic.
+See [devlog.md](devlog.md) for more details on how this was all set up - at some point I may write a blog post about this topic.
 
 # Local testing
 
@@ -16,7 +16,7 @@ This opens a server which you can open using the link in the terminal output.
 
 # Draft posts
 
-There are draft posts in the _posts folder that don't have a yyyy-mm-dd prefix which aren't included in the Jekyll build.
+There are draft posts in the [_posts](_posts) folder that don't have a yyyy-mm-dd prefix which aren't included in the Jekyll build.
 
 The dev branch is being used for seeing how the blog looks with a draft of the article I'm currently writing.
 
