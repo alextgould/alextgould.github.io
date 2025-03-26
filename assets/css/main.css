@@ -1479,3 +1479,27 @@ a.newer-posts:hover {
     font-size: 21px;
   }
 }
+
+/* Styles for the "Back to Main Page" button */
+.back-to-main {
+  text-align: center; /* Center the button */
+  margin-bottom: 20px; /* Add some space below the button */
+}
+
+.btn-back {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #515151; /* Lighter grey color */
+  color: #ffffff; /* White text color */
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none; /* Ensure no border is applied */
+  cursor: pointer; /* Add pointer cursor on hover */
+  font-size: 16px; /* Adjust font size */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.btn-back:hover {
+  background-color: #bbb; /* Slightly darker grey on hover */
+}

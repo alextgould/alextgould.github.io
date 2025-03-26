@@ -7,6 +7,12 @@
 
 # Historical notes
 
+## Adjustments to front page
+
+In consultation with Copilot, adjusted index.html to pick up an optional parameter in the front matter of each post that controls the summary shown on the front page. This mitigates the issue I'm having with wanting to have an overview/exec summary > table of contents > introduction > other sections, which doesn't work if it's picking up the first 15 words of the main content, as I can't have headers or an overview as this would be dull and uninformative. Easy fix for now.
+
+Also adjusted the post.html template to include a new div with a centered "Back to Home Page" button, with styles added to main.css with guidance from Copilot. Matched the colour to the font colour using Chrome > Inspect tool, which was also helpful in working out that having this div inside the footer div didn't work as it was placing my button on the left despite it being center aligned (possibly due to flex-wrap).
+
 ## Minor subsequent testing
 
 * Confirmed Github won't deploy when you commit to dev branch (so can edit posts and preview locally before merging with main)
@@ -85,4 +91,26 @@ git merge origin/main --allow-unrelated-histories
 
 This resulted in a merge conflict as the remote repo I created has MIT licence but the template I started with used GNU. I have to retain the GNU licence and not use the MIT licence.
 
-* https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site - 
+* updated gemfile as I'm using windows
+
+added
+gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+
+after the line get 'jekyll'
+
+then ran
+bundle install
+
+This just optimises for the fact I'm running windows. From ChatGPT:
+
+wdm stands for Windows Directory Monitor.
+
+It's a Ruby gem that provides an efficient way to detect file changes on Windows using the Win32 Change Journal API instead of inefficient polling. This makes Jekyll's --watch mode more CPU-friendly and responsive on Windows.
+
+On Linux/macOS, Jekyll uses the listen gem, which efficiently detects file changes.
+
+On Windows, if wdm is not installed, Jekyll defaults to polling, which is slower and less efficient.
+
+Since the template you copied probably didn’t include wdm (because it wasn't developed on Windows), Jekyll is now suggesting it to optimize performance on your system.
+
+This is a common issue when using Jekyll on Windows, but adding wdm won't change the template's behavior—just improve efficiency.
