@@ -1,22 +1,36 @@
 ---
 layout: post
-title: Sample post for testing
+title: "Sample post for testing"
 date: 2025-01-01
-description: This metadata description may be displayed by search engines, so ensure it entices potential viewers. Buy buy buy!
+description: "This metadata description may be displayed by search engines, so ensure it entices potential viewers. Buy buy buy!"
 img: testing/debug_wide.jpg
-fig-caption: This is a test of the emergency broadcast system # Appears in the top right over the top fo the image (looks bad)
+# fig-caption: "This is a test of the emergency broadcast system" # Appears in the top right over the top of the image
 tags: [Testing] # Personal, Opinion, Technical, Review, Project, Testing
+main_page_summary: "This will be displayed on the main page." # used to explicitly control what is shown on main page; remove to show first 15 words of body content instead
 ---
 
-This page is designed for testing and should be disabled by removing the date from the file name before production. It's also a template for future posts with some basic structural elements to make posts more engaging by minimising my verbal meandering.
+## Executive Summary
 
-> This is a blockquote. As an aside, the first few sentences in the blog post are displayed in the main page, and blockquotes are picked up. So having a banner at the top that says something like "Currently being updated" might seem ok (if you've spent enough time in Azure-land) but it will look bad on the home page.
+In this post:
+* I give some examples of content and structure for posts
+* I make many humorous references to Aussie Bogans
+* I show off an image of a "Data God" that took me ages to create and which I ended up not using
 
-Opening Statement (Hook). The goal of this is to grab attention and set the tone. This could be an interesting fact, a question, or a personal anecdote. For example, " Have you ever wondered why X always happens when Y is true? I recently experienced it firsthand…"
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Main Content (Body)](#main-content-body)
+- [Conclusion](#conclusion)
 
 ## Introduction
 
-Introduction. Briefly outline the topic and why it matters. A quick overview of what the post will cover setting expectations. Keep it concise - just 1 to 2 paragraphs is often enough. For example, "In this post, I’ll explain how you can solve problem X using tool Y. Whether you’re new to this or looking for advanced tips, you’ll find something useful."
+Opening Statement (Hook). The goal of this is to grab attention and set the tone. This could be an interesting fact, a question, or a personal anecdote. For example, " Have you ever wondered why X always happens when Y is true? I recently experienced it firsthand…"
+
+Briefly outline the topic and why it matters. A quick overview of what the post will cover setting expectations. Keep it concise - just 1 to 2 paragraphs is often enough. For example, "In this post, I’ll explain how you can solve problem X using tool Y. Whether you’re new to this or looking for advanced tips, you’ll find something useful."
+
+> This is a blockquote.
+
+This page is designed for testing and should be disabled by removing the date from the file name before production. It's also a template for future posts with some basic structural elements to make posts more engaging by minimising my verbal meandering.
 
 ## Main Content (Body)
 

@@ -5,7 +5,28 @@ date: 2025-03-16
 description: What are your long term career goals, as an aspiring Data Scientist, Data Engineer or AI/ML Engineer? I have some insights from my recent career planning process, as well as my career experiences to date.
 img: when-i-grow-up/grow_up.jpg
 tags: [Personal, Opinion] # Personal, Opinion, Technical, Review, Project, Testing
+main_page_summary: "Insights from my recent career planning process and my career experiences to date" 
 ---
+
+## Executive Summary
+
+In this post:
+* I provide an overview of a semi-formal career planning process I undertook recently
+* I share my current career goals, including the reasoning behind them and the implications for skills I'm looking to develop
+* I make a public commitment - to create interesting projects as content for this blog, to be more active in networking and to stay on top of relevant advertised roles.
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [The career planning process](#the-career-planning-process)
+- [Long term goals](#long-term-goals)
+- [Short term goals](#short-term-goals)
+- [Must haves](#must-haves)
+- [Specific skills](#specific-skills)
+- [Next steps for me](#next-steps-for-me)
+- [Next steps for you](#next-steps-for-you)
+
+## Introduction
 
 I suspect for many people, their current job is the byproduct of a series of somewhat random choices and actions, based loosely on the answer to the question "what are your favourite subjects at school?", and extrapolated, one thing leading to another, until they find themselves in their current job. Their future job, by induction, also has a fair degree of randomness involved. 
 
@@ -15,13 +36,11 @@ I believe so. I became an Actuary - pretty close to being an Accountant. Within 
 
 It's worth taking the time to reflect on your long term goals. Even though the world may change, long term goals provide inspiration for short term goals. Short term goals motivate you to take short term actions that can move you closer to that vision of where you want to be. Without a clear vision, your actions will be motivated by dopamine hits (i.e. what your inner monkey feels like doing) and what others want from you.
 
-## Introduction
-
 I anticipate most of the posts to this blog will be technical, but this one will be a bit more personal. I'll talk through my career plan and how this blog fits into the broader picture of what I'm trying to do with my life. Along the way, I'll share some insights based on my career path, and perhaps you will learn something that will help you to steer your career in a better direction than it otherwise might be heading. 
 
 Let's start by talking about the process I went through to figure out a career plan.
 
-## The career plan process
+## The career planning process
 
 A friend recently reached out and asked me to join them in following the process outlined in the book [Never Search Alone](https://www.phyl.org/) by Phyl Terry. 
 
