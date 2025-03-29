@@ -7,6 +7,40 @@
 
 # Historical notes
 
+## Further adjustments to CSS
+
+While reviewing my first project related post, which involved more text and particularly Python code blocks, I made further changes manually:
+
+* Adjusted the blockquote to have a narrower line on the left, with darker font and lighter line
+
+* Adjusted the font used for code blocks from monospace (which has maximum cross platform compatibility but looks ugly), to match what I have in my vscode "editor.fontFamily" settings: Consolas, 'Courier New', monospace
+
+## Adjustments to CSS
+
+In consultation with ChatGPT, I was able to adjust the template to have 
+
+* fontsize of 0.9em for the code blocks, as they use a monospace font which looks too large relative to the regular text
+* main.css highlight colours matching vscode modern light format
+
+Honestly it blew me away that ChatGPT was able to a) find the json where vscode define their style b) advise me on the area in my css that I needed to update c) create the css for me to paste in, which was formatted in such a nice fashion compared to the original code (grouping together related styles that were separate in the original version)
+
+e.g.
+
+```css
+/* Comments */
+.highlight .c, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #008000; /* Green */
+  font-style: italic;
+}
+
+/* Function names */
+.highlight .nf {
+  color: #795E26; /* Dark Gold */
+}
+```
+
+Being able to accomplish this sort of customisation in minutes without a strong background in what I'm doing, learning along the way but also not having to do the messy manual grunt work, is simply amazing.
+
 ## Adjustments to front page
 
 In consultation with Copilot, adjusted index.html to pick up an optional parameter in the front matter of each post that controls the summary shown on the front page. This mitigates the issue I'm having with wanting to have an overview/exec summary > table of contents > introduction > other sections, which doesn't work if it's picking up the first 15 words of the main content, as I can't have headers or an overview as this would be dull and uninformative. Easy fix for now.
