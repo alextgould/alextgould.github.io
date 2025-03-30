@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Happy Plants: A data-driven predictive watering notification system"
-date: 2025-12-31
+date: 2025-03-31
 description: In this project, we will create This metadata description may be displayed by search engines, so ensure it entices potential viewers. Buy buy buy!
 img: happy-plants/robots.png
 tags: [Project] # Personal, Opinion, Technical, Review, Project, Testing
@@ -592,11 +592,13 @@ Getting Task Scheduler to run the program each day is relatively straightforward
 * General: Give it a name (e.g. gather_rainfall_data)
 * Trigger: Daily (e.g. 7:30am every day)
 * Actions: Start a program
-  * Program/script: The python.exe file in your (virtual) environment (e.g. C:\.venv\happy_plants\Scripts\python.exe)
+  * Program/script: The pythonw.exe file in your (virtual) environment (e.g. C:\.venv\happy_plants\Scripts\python.exe)
   * Add arguments: The full path to the script file you want to run, using parentheses if there's any spaces (e.g. "D:\Projects\happy-plants\scripts\daily_run.py")
   * Start in (optional): The path to your project root; anecdotally this cannot include quotes, so ideally use file paths with no spaces (e.g. D:\Projects\happy-plants)
 * Conditions: (optional) I ticked the Network condition as I need internet access to gather rainfall data
 * Settings: (optional): I adjusted these to have the task run after a scheduled start is missed (as my computer isn't necessarily on at 7:30am every day), with some restart options (3 retries with 2 hour delays, in case my internet cuts out)
+
+Note we use pythonw.exe rather than python.exe here so that the process runs in the background, without popping up a terminal window.
 
 And with that, we have an automated process, which collects data from a website, adds it to a database, transforms the data to make a recommendation on manual watering, and sends this to the user along with a pretty data visualisation.
 
