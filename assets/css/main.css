@@ -1271,3 +1271,7 @@ a.newer-posts:hover {
 .btn-back:hover {
   background-color: #bbb; /* Slightly darker grey on hover */
 }
+
+.footnotes {
+  font-size: 80%;
+}

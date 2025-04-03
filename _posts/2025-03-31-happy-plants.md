@@ -432,18 +432,23 @@ def _get_credentials() -> Credentials:
     
     # Refresh or obtain new credentials if needed
     if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
+        try:
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            else:
+                raise Exception("No valid refresh token available.")
+        except Exception as e:
+            logger.warning(f"Failed to refresh token: {e}. Re-authenticating...")
             flow = InstalledAppFlow.from_client_secrets_file(CREDENTIALS_FILE, SCOPES)
             creds = flow.run_local_server(port=0)
+
         with open(TOKEN_FILE, "w") as token:
             token.write(creds.to_json())
     
     return creds
 ```
 
-The first time the script is run, a manual login is required. A browser window pops up and you see "You've been given access to an app that's currently being tested. You should only continue if you know the developer that invited you." Clicking Continue authenticates the app, creating a token.json file. This file contains a short-lived (2 hour) access_token to authenticate API requests and a long-lived refresh_token that allows the script to obtain new access tokens in the future without requiring another manual login.
+The first time the script is run, a manual login is required. A browser window pops up and you see "You've been given access to an app that's currently being tested. You should only continue if you know the developer that invited you." Clicking Continue authenticates the app, creating a token.json file. This file contains a short-lived (2 hour) access_token to authenticate API requests and a long-lived refresh_token that allows the script to obtain new access tokens in the future without requiring another manual login[^1].
 
 The only thing to do locally is ensure we add credentials.json and token.json to our .gitignore to avoid sharing them with the world. When we deploy to the cloud, we'll need to manually upload our token.json to the cloud server, or SSH into the server and run the script to do the once off manual login process.
 
@@ -698,3 +703,8 @@ In subsequent posts, we can extend this system in various ways, such as:
 * Create an API to register when the user waters their plants, which can be accessed by clicking a button in the daily email. This way the system doesn't have to assume that the user has watered their plants, and the user can ignore the recommendation and get a reminder the next day.
 
 That's all for now. I hope you've enjoyed the insights from this project as much as I enjoyed building it!
+
+---
+<small>Footnotes:</small>
+
+[^1]: Some time after completing this project I stopped receiving emails as my token was expired. It turns out there's a limit of 50 refresh tokens before a manual login is required again. The code shown handles this, prompting the user to reauthenticate. This works fine on a local system, but for a cloud platform deployment we'll need to revisit our email approach, probably setting up our own domain and/or trying out SMTP Relay.
