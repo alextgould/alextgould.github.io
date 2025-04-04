@@ -5,7 +5,7 @@ date: 2025-03-31
 description: In this project, we will create This metadata description may be displayed by search engines, so ensure it entices potential viewers. Buy buy buy!
 img: happy-plants/robots.png
 tags: [Project] # Personal, Opinion, Technical, Review, Project, Testing
-main_page_summary: "Building a system that sends me a daily email to tell me if I should water my plants." 
+main_page_summary: "Building a system that sends me a daily email to tell me if I should water my plants" 
 ---
 
 ## Executive Summary

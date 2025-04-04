@@ -1,20 +1,18 @@
 ---
 layout: post
-title: "Sample post for testing"
+title: "LoL Monitor: helping players manage their gaming sessions"
 date: 2025-12-31
-description: "This metadata description may be displayed by search engines, so ensure it entices potential viewers. Buy buy buy!"
-img: testing/debug_wide.jpg
-# fig-caption: "This is a test of the emergency broadcast system" # Appears in the top right over the top of the image
-tags: [Testing] # Personal, Opinion, Technical, Review, Project, Testing
-main_page_summary: "This will be displayed on the main page." # used to explicitly control what is shown on main page; remove to show first 15 words of body content instead
+description: "Do you want to \"three block\" your League of Legends gaming sessions, but struggle to maintain self control? This tool helps you by automatically closing the lobby for you."
+img: lolmonitor/lolmonitor_wide_azure.jpg
+tags: [Project] # Personal, Opinion, Technical, Review, Project, Testing
+main_page_summary: "Building a tool to close the League of Legends lobby after each game and enforce breaks"
 ---
 
 ## Executive Summary
 
 In this post:
-* I give some examples of content and structure for posts
-* I make many humorous references to Aussie Bogans
-* I show off an image of a "Data God" that took me ages to create and which I ended up not using
+* I give an overview of the LoL Monitor tool, which monitors for League of Legends windows, closing the lobby after each game and enforcing breaks
+* I talk about the Go programming language that I used to build the tool, and contrast it with the Python language with which I have more experience
 
 ## Table of Contents
 
@@ -31,6 +29,16 @@ Briefly outline the topic and why it matters. A quick overview of what the post 
 > This is a blockquote.
 
 This page is designed for testing and should be disabled by removing the date from the file name before production. It's also a template for future posts with some basic structural elements to make posts more engaging by minimising my verbal meandering.
+
+## The post game lobby window
+
+There are two options coming out of a game of League of Legends, and both are bad news for moderation.
+
+Option 1: Victory! You're on a dopamine high, you're feeling great, this game makes you feel great, and there's a button that says "Would you like some more?". Hell yes I want some more. Play another game.
+
+Option 2: Defeat! You played poorly and you're feeling shame, guilt, frustration. Or you played well, but you lost anyway; your teammates were underperforming, your team ignored your call and hung you out to dry, your team fought at a numbers disadvantage while you weren't there. It feels unfair and you're feeling frustrated. Either way, the easiest way to make these negative feelings go away is to sweep it under the rug and pretend it never happened. Next game you'll be better, or your team will perform better. Play another game.
+
+In both cases, the main problem is that there's a big button that continues the endless cycle. It's like doom scrolling on social media or autoplay on YouTube. You need something to help you break the cycle. You need a moment so you can pause, reset and make a more logical decision rather than making an emotional one. You need that button to go away.
 
 ## Main Content (Body)
 

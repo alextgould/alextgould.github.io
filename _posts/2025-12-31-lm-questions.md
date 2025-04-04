@@ -1,20 +1,17 @@
 ---
 layout: post
-title: "Sample post for testing"
+title: "How to use your large language model more effectively"
 date: 2025-12-31
-description: "This metadata description may be displayed by search engines, so ensure it entices potential viewers. Buy buy buy!"
-img: testing/debug_wide.jpg
-# fig-caption: "This is a test of the emergency broadcast system" # Appears in the top right over the top of the image
-tags: [Testing] # Personal, Opinion, Technical, Review, Project, Testing
-main_page_summary: "This will be displayed on the main page." # used to explicitly control what is shown on main page; remove to show first 15 words of body content instead
+description: "How can you use large language models such as ChatGPT, Gemini or Claude more effectively? Ask better questions! Here's some tips..."
+img: lm-questions/person-with-ai.jpg
+tags: [Opinion] # Personal, Opinion, Technical, Review, Project, Testing
+main_page_summary: "My personal take on good questions to use with ChatGPT and other language models" # used to explicitly control what is shown on main page; remove to show first 15 words of body content instead
 ---
 
 ## Executive Summary
 
 In this post:
-* I give some examples of content and structure for posts
-* I make many humorous references to Aussie Bogans
-* I show off an image of a "Data God" that took me ages to create and which I ended up not using
+* I give examples of questions you can try using, to make the most of language models
 
 ## Table of Contents
 
