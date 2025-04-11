@@ -24,7 +24,16 @@ discus-identifier: # Discus identifier
 analytics: # Google Analytics
 
 # Build Settings
+highlighter: rouge
 markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: 'highlight'
+    guess_lang: false
+
 plugins:
   - jekyll-sitemap
   - jekyll-paginate

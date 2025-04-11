@@ -118,9 +118,9 @@ lolmonitor/
 
 There are a few features in this structure that explain why I took the scenic route in turning my initial prototype into a more polished product:
 
-1. The **pkg** folder contains a general purpose "window" package that can be used to monitor for the opening and closing of windows by name, as well as forcibly shut them. While this code could have comfortably lived with the main application code, I refactored and split it out as it felt like it could be a useful tool for other projects. This is used to highlight a design feature of Go "modules" (i.e. the project level), which contain many "packages" (i.e. the directory level): the location of the package actually determines whether it can be imported by other modules or not. Packages within the internal directory *can't* be imported externally, whereas those in the pkg package directory can.
+1. The **pkg** folder contains a general purpose "window" package that can be used to monitor for the opening and closing of windows by name, as well as forcibly shut them. While this code could have comfortably lived with the main application code, I refactored and split it out as it felt like it could be a useful tool for other projects. This is used to highlight a design feature of Go "modules" (i.e. the project level) and their "packages" (i.e. the subfolder level): the location of the package actually determines whether it can be imported by other modules or not. Packages within the internal directory *can't* be imported externally, whereas those in the pkg package directory can.
 
-    This highlights a general characteristic of the Go language compared to Python, which is that it is much more opinionated and structured. It will add, remove and rearrange included packages, and adjust indenting, when you save the file. It won't let you import a function into another package unless it starts with an upper case letter to indicate that it's an external function. It also checks for compile errors, so you can't actually run the code until it decides it's ready to be run.
+    This highlights a general characteristic of the Go language compared to Python: it's more opinionated. For example, when you save the file it will make changes to your code, such as adjusting the included packages to reflect what's actually being used and adjusting indenting based on its preferred style. Go treats functions that start with an upper case letter as external ones, preventing you from importing internal functions that start with lower case letters into other packages. Go also checks for compile errors, so you can't actually run the code until it decides it's ready to be run. Once you get used to it, this more structured approach is actually quite helpful.
 
 2. The **internal** folder uses a series of subfolders to achieve "separation of concerns", where we have different packages for each purpose and/or dependency, which are then brought together by a higher level package. This is a common design feature in Go projects, and while the Go community have established [quite a few](https://medium.com/@smart_byte_labs/organize-like-a-pro-a-simple-guide-to-go-project-folder-structures-e85e9c1769c2) different "best practice" structures, these differ mainly in how they choose to structure their internal folder. Such project structures can make it easier to find and update specific sections of the code base and let you more easily "plug and play" different components (e.g. swap one database for another).
 
@@ -134,7 +134,7 @@ There are a few features in this structure that explain why I took the scenic ro
 
 3. For almost every .go file there is a corresponding **_test.go** file. In contrast to Python, where error handling and unit tests are "best practice" but are often more of an afterthought, in Go these aspects are first-class citizens. Almost every function will return an error value to be handled by the function that calls it. The code, which has been segmented into distinct packages, will be tested in isolation, so that when a package is used by a higher level package, you can be fairly confident it will all work. There's a built in testing package with conventions such as having corresponding _test.go files which contain a series of functions that start with Test and can be run (at least in vscode) with a button click, in isolation or as a batch.
 
-    In the case of the *windows* package, creating the test files actually involved a decent amount of refactoring. Initially, my test files required me to manually open and close windows, which was a slow process and would have been a pain when testing time of day exclusion periods. In order to test this properly, I had to adjust the code to use an *Interface*, which could be set to either the real process retriever (which looked for actual processes running in the Windows operating system) or a Mock[^1] process retriever (which simulated processes being opened and closed). Similarly, functions that use the current time in production can be written to use a parameterised time value, which is set to the current time in production but can be artificially set in the test environment.
+    In the case of the *windows* package, creating the test files actually involved a decent amount of refactoring in itself. Initially, my test files required me to manually open and close windows, which was a slow process and would have been a pain when testing time of day exclusion periods. In order to test this properly, I had to adjust the code to use an *Interface*, which could be set to use either a real process retriever (which looked for actual processes running in the Windows operating system) or a Mock[^1] process retriever (which simulated processes being opened and closed). Similarly, functions that use the current time in production can be written to use a parameterised time value, which is set to the current time in production but can be artificially set in the test environment.
 
 	While this took some additional time, both in getting used to the way testing works and to actually implement tests, I can see how this approach can lead to much greater confidence in your code. I found it useful to have Copilot create some sensible tests, which I could then adjust as needed. Creating the tests is often relatively straightforward but can be a little tedious, so it's nice to outsource it and have it done immediately. It's also good to have multiple eyes involved, as sometimes Copilot would create tests that I wouldn't have and vice versa. I think with more experience, it would also take less time as you would know to use interfaces and parameterised values in advance, making it much easier to write the tests.
 
@@ -142,13 +142,13 @@ With our project well structured, we can now look at some of the individual Go f
 
 ## Let's Go Go Go!
 
-### WMI
+### WMI... Whale-sized Marshmallow Initiative?
 
 To monitor for windows opening and closing, we can use the Windows Management Instrumentation (WMI) infrastructure. This is essentially a table which we can query using Windows Query Language (WQL), which is effectively SQL.
 
 The basic code used to query the WMI table to see if a process exists looks like this:
 
-```Go
+```go
 import (
 	"github.com/StackExchange/wmi"
 )
@@ -187,9 +187,9 @@ func (w WMIProcessRetriever) GetProcessesByName(name string) ([]Win32_Process, e
 }
 ```
 
-Thankfully ChatGPT has memorised the internet and can quickly point me in the direction of the wmi package, so we can build on the shoulders of giants. There's a single line here that does most of the work, using wmi.Query to run the SELECT query to see if the process exists. The rest of the code deals with some of the aspects discussed in the previous section, creating the ProcessRetriever interface with a function to get processes by name, which is set to the WMIProcessRetriever in production. The _test.go equivalent of this looks like this:
+Thankfully ChatGPT has memorised the internet and can quickly point me in the direction of the wmi package, so we can build on the shoulders of giants. There's a single line here that does most of the work, using the wmi.Query function to run the SELECT query to see if the process exists. This function updates a []Win32_Process *slice* (the Go equivalent of a Python list), which is passed by reference using the & prefix. The rest of the code deals with aspects discussed in the previous section, creating the ProcessRetriever interface with a function to get processes by name, which is set to the WMIProcessRetriever in production. The _test.go equivalent looks like this:
 
-```Go
+```go
 type MockProcessRetriever struct {
 	Processes map[string]Win32_Process
 }
@@ -213,13 +213,11 @@ func (m *MockProcessRetriever) RemoveProcess(name string) {
 }
 ```
 
-Similar to the ProcessRetriever, the MockProcessRetriever also has a GetProcesssesByName function, but it has the additional AddProcess and RemoveProcess functions so we can control the processes in the []Win32_Process *slice* (the Go equivalent of a Python list).
-
-This is also our first look at a function that returns error type values, along with the `if err == nil` style checking, which we'll be seeing a lot of as we go along.
+Similar to the ProcessRetriever, the MockProcessRetriever also has a GetProcesssesByName function, but it also has the AddProcess and RemoveProcess functions so we can manually control the processes in the slice.
 
 We can use the GetProcessesByName function to check if a process is active or not, and this can be used in a simple loop to identify when new processes appear, or existing processes disappear:
 
-```Go
+```go
 type ProcessEvent struct {
 	Name      string
 	PID       uint32
@@ -228,7 +226,6 @@ type ProcessEvent struct {
 }
 
 func MonitorProcess(name string, events chan<- ProcessEvent, delaySeconds int, pr ProcessRetriever) {
-
 	wasActive := false
 	for {
 		isActive, id, _ := isProcessActive(name, pr)
@@ -247,7 +244,7 @@ In the above function, we use a *channel* to capture the event of a process open
 
 The last aspect of the windows package is the task killer. Our events contain the process id, which we can use with the taskkill command to close a window:
 
-```Go
+```go
 func (w WMIProcessKiller) KillProcess(pid uint32) error {
 	cmd := exec.Command("taskkill", "/PID", fmt.Sprint(pid), "/F")
 	return cmd.Run()
@@ -264,7 +261,7 @@ The main application is split between main.go and orchestrate.go.
 
 The main.go file is the main entry point for the application and is designed to be very basic and not require any testing, essentially just calling the relevant functions from the config, startup and application packages in turn, as well as keeping our event channel open:
 
-```Go
+```go
 func main() {
 	// Load (or create) config file
 	cfg, err := config.LoadConfig("")
@@ -297,7 +294,7 @@ func main() {
 }
 ```
 
-There are however a few interesting new things here:
+There are two interesting new things here:
 
 1. We use `make` to create the gameEvents channel that will collect events from our WMI monitoring process. The second parameter in the make function is the buffer size of the channel, which allows for multiple unprocessed events to exist in the channel at once. In normal operation, we probably won't see 10 events between checks, but this figure gives us a safety margin, which might be useful for example when testing.
 
@@ -311,7 +308,7 @@ The orchestrate.go file contains the main loop which checks for windows opening 
 
 The main function, Monitor, will use two helper functions. The first helper function encapsulates the logic of determining whether we're allowed to open the lobby or not:
 
-```Go
+```go
 func isLobbyBan(cfg config.Config, currentTime, endOfBreak time.Time) (bool, error) {
 
 	// check we are not the endOfBreak exclusion period
@@ -331,9 +328,9 @@ func isLobbyBan(cfg config.Config, currentTime, endOfBreak time.Time) (bool, err
 ```
 By splitting this out, it's easy to test, passing dummy config values and a currentTime value which isn't actually the real current time. Note when comparing time values, `currentTime.Before(endOfBreak)` is a Go way of doing a currentTime < endOfBreak comparison using time.Time values, whereas currentHM >= cfg.DailyEndTime is actually doing string comparison on the times formatted as "hh:ss".
 
-The second helper function applies the logic .... UP TO HERE
+The second helper function applies the logic to decide whether a game counts (or is a remake), update the game counter and determine the duration of the break based on whether it's just the end of a game or the end of session:
 
-```Go
+```go
 // post game logic to determine the new sessionGames and endOfBreak values
 func postGame(cfg config.Config, currentTime, gameStartTime, gameEndTime time.Time, sessionGames int) (int, time.Time, time.Duration) {
 	var gameDuration, breakDuration time.Duration
@@ -361,9 +358,11 @@ func postGame(cfg config.Config, currentTime, gameStartTime, gameEndTime time.Ti
 }
 ```
 
+We see some more time-based operations here: `gameEndTime.Sub(gameStartTime)` calculates the game duration as gameEndTime - gameStartTime, `gameEndTime.Add(breakDuration)` calculates the end of break time as gameEndTime + breakDuration, and `time.Duration(cfg.BreakBetweenSessionsMinutes)` converts an integer (e.g. 15) into a time value (15 nanoseconds), which is multiplied by the number of nanoseconds in a minute (`time.Minute`).
 
+The two helper functions are called from the main Monitor function below. Note that this function starts with an uppercase letter, whereas the helper functions above started with lower case letters. This means unlike the other two functions, this function will appear and be available when importing this package within main.go:
 
-```Go
+```go
 func Monitor(cfg config.Config, events chan window.ProcessEvent, pr window.ProcessRetriever, pk window.ProcessKiller) {
 
 	go window.MonitorProcess(LOBBY_WINDOW_NAME, events, CHECK_FREQUENCY_SECONDS, pr)
@@ -372,7 +371,6 @@ func Monitor(cfg config.Config, events chan window.ProcessEvent, pr window.Proce
 	var gameStartTime, gameEndTime, endOfBreak time.Time
 	var breakDuration time.Duration
 	var sessionGames int
-	lastChecked := time.Now()
 
 	for event := range events {
 
@@ -427,11 +425,9 @@ func Monitor(cfg config.Config, events chan window.ProcessEvent, pr window.Proce
 	}
 }
 ```
-
-
-
-
-
+There are a few interesting things here:
+1. We start by making two calls to `go window.MonitorProcess()` - one for the lobby window and one for the game window - which run concurrently as we're calling them as goroutines using the special `go` keyword. When I first got my prototype code working, I actually had a single function that monitored for both window names in the SELECT statement. When I refactored the window package to be more general purpose, I decided to keep it simple and only monitor for a single process. Hence, at this point we make two calls to the function. We could probably refactor the window code to be able to monitor for multiple processes at a time if we needed maximum efficiency, at the cost of additional complexity.
+2. The `for event := range events {` loop operates on the events channel, which is being kept open by the main.go program that calls this function. Hence, this loop will also remain active indefinitely, processing events as they are added to the channel. This is a really interesting aspect of the Go language, and can be contrasted with the use of callback functions in Python.0
 
 
 

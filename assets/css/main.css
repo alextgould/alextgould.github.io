@@ -436,101 +436,6 @@ template {
   display: none;
 }
 
-/* VS Code Light Modern Syntax Highlighting */
-.highlight {
-  background-color: #ffffff;
-  border-radius: 3px;
-  margin: 0;
-}
-
-.highlighter-rouge {
-  color: #000000;
-  font-weight: 400;
-  border: 1px solid #cccccc;
-  border-radius: 3px;
-  padding: 0.1rem 0.5rem;
-}
-
-/* Comments */
-.highlight .c, .highlight .cm, .highlight .c1, .highlight .cs {
-  color: #008000; /* Green */
-  font-style: italic;
-}
-
-/* Errors */
-.highlight .err {
-  color: #ff0000;
-  background-color: #ffcccc;
-}
-
-/* Keywords */
-.highlight .k, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr {
-  color: #0000ff; /* Blue */
-}
-
-/* Operators */
-.highlight .o, .highlight .ow {
-  color: #222222;
-}
-
-/* Strings */
-.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s1, .highlight .s2 {
-  color: #a31515; /* Red */
-}
-
-/* Numbers */
-.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .mo {
-  color: #098658; /* Green */
-}
-
-/* Function names */
-.highlight .nf {
-  color: #795E26; /* Dark Gold */
-}
-
-/* Class names */
-.highlight .nc {
-  color: #267f99; /* Cyan */
-  font-weight: bold;
-}
-
-/* Constants */
-.highlight .no {
-  color: #0070C1; /* Light Blue */
-}
-
-/* Variables */
-.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi {
-  color: #001080; /* Dark Blue */
-}
-
-/* Built-in names */
-.highlight .nb, .highlight .bp {
-  color: #267f99; /* Cyan */
-}
-
-/* Decorators */
-.highlight .nd {
-  color: #B000B0; /* Purple */
-}
-
-/* Tags */
-.highlight .nt {
-  color: #800000; /* Dark Red */
-}
-
-/* Regular Expressions */
-.highlight .sr {
-  color: #811f3f; /* Burgundy */
-}
-
-/* Literal.Number.Integer.Long */
-.css .o,
-.css .o + .nt,
-.css .nt + .nt {
-  color: #999;
-}
-
 *, *::after, *::before {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -592,6 +497,7 @@ pre code {
   white-space: pre-wrap;
   word-wrap: break-word;
   word-break: break-all;
+  tab-size: 4;
 }
 
 table {
@@ -1274,4 +1180,188 @@ a.newer-posts:hover {
 
 .footnotes {
   font-size: 80%;
+}
+
+
+/**** VS Code Light Modern Syntax Highlighting ****/
+
+.highlight {
+  background-color: #ffffff;
+  border-radius: 3px;
+  margin: 0;
+}
+
+.highlighter-rouge {
+  color: #000000;
+  font-weight: 400;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  padding: 0.1rem 0.5rem;
+}
+
+/* Comments */
+.highlight .c, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #008000; /* Green */
+  font-style: italic;
+}
+
+/* Errors */
+.highlight .err {
+  color: #ff0000;
+  background-color: #ffcccc;
+}
+
+/* Keywords */
+.highlight .k, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr {
+  color: #0000ff; /* Blue */
+}
+
+/* Operators */
+.highlight .o, .highlight .ow {
+  color: #222222;
+}
+
+/* Strings */
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s1, .highlight .s2 {
+  color: #a31515; /* Red */
+}
+
+/* Numbers */
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .mo {
+  color: #098658; /* Green */
+}
+
+/* Function names */
+.highlight .nf {
+  color: #795E26; /* Dark Gold */
+}
+
+/* Class names */
+.highlight .nc {
+  color: #267f99; /* Cyan */
+  font-weight: bold;
+}
+
+/* Constants */
+.highlight .no {
+  color: #0070C1; /* Light Blue */
+}
+
+/* Variables */
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi {
+  color: #001080; /* Dark Blue */
+}
+
+/* Built-in names */
+.highlight .nb, .highlight .bp {
+  color: #267f99; /* Cyan */
+}
+
+/* Decorators */
+.highlight .nd {
+  color: #B000B0; /* Purple */
+}
+
+/* Tags */
+.highlight .nt {
+  color: #800000; /* Dark Red */
+}
+
+/* Regular Expressions */
+.highlight .sr {
+  color: #811f3f; /* Burgundy */
+}
+
+/* General Names (variables, functions, interfaces, struct fields) */
+.highlight .n {
+  color: #001080; /* Dark Blue (VS Code variable color) */
+}
+
+/* Type Keywords */
+.highlight .kt {
+  color: #267f99; /* Cyan-like blue, used in VS Code for types */
+  font-style: italic;
+}
+
+/* Punctuation (brackets, commas, etc.) */
+.highlight .p {
+  color: #000000;
+}
+
+/* Operators (:=, ., +, -, etc.) */
+.highlight .o {
+  color: #000000; /* Default black, could use gray if you prefer */
+}
+
+/* Interface or function type (you might already have this in .nf) */
+.highlight .nf {
+  color: #795E26; /* Dark Gold */
+  font-weight: bold;
+}
+
+/* Parameter Names (e.g., name in func(name string)) */
+.highlight .na {
+  color: #333399;
+}
+
+/* Literal.Number.Integer.Long */
+.css .o,
+.css .o + .nt,
+.css .nt + .nt {
+  color: #999;
+}
+
+/* ---------- Contextual styling for generic .n elements ---------- */
+
+/* type MyStruct struct */
+.language-go .k + .n {
+  color: #267f99;  /* Cyan-ish: class/type names */
+  font-weight: bold;
+}
+
+/* func DoThing(...) */
+.language-go .k + .n + .p {
+  color: #795E26; /* Dark Gold: function definitions */
+  font-weight: bold;
+}
+
+/* receiver method definition: func (w Type) Method(...) */
+.language-go .p + .n + .p + .n + .p {
+  color: #795E26; /* method name */
+  font-weight: bold;
+}
+
+/* w.Method(...) — method calls */
+.language-go .n + .o + .n {
+  color: #267f99; /* or gold, depending on preference */
+}
+
+/* Type keywords like string, uint32 */
+.language-go .kt {
+  color: #267f99; /* Same as struct names */
+  font-style: normal;
+}
+
+/* Method name after interface opening */
+.language-go .k + .n + .k + .n {
+  color: #795E26; /* Dark gold for function names */
+  font-weight: bold;
+}
+
+/* Also: standalone methods in interface or receiver funcs */
+.language-go .p + .n + .p {
+  color: #795E26;
+  font-weight: bold;
+}
+
+/* var foo string — highlight variable name */
+.language-go .k + .n + .kt {
+  color: #001080; /* Deep blue for variables */
+}
+
+/* Variable declarations */
+.language-go .k + .n + .kt,  /* var foo string */
+.language-go .n + .o + .n,   /* foo := bar */
+.language-go .k + .n + .o + .n { /* var foo = bar */
+  color: #001080; /* Deep blue */
 }
