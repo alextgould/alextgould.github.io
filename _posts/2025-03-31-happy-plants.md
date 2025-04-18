@@ -547,7 +547,7 @@ With everything set up, it's time to automate.
 
 ## Autobots, Roll Out!
 
-To have the process run on a daily basis, I created a script that would call the various functions, and then used the Windows Task Manager to run the script automatically each day. As with most of the things I did for the first time in this project, it sounded really simple at first...
+To have the process run on a daily basis, I created a script that would call the various functions, and then used the Windows Task Scheduler to run the script automatically each day. As with most of the things I did for the first time in this project, it sounded really simple at first...
 
 ### Including python modules from another project directory
 
