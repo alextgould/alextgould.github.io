@@ -304,7 +304,7 @@ There are two interesting new things here:
 
     In this case, it lets us run the application.Monitor function while continuing to run the main() function. The main() function creates a channel called signalChan that monitors for the interupt signal that occurs when you press "Ctrl+C" in a terminal. So long as nothing is added to the channel, the function will simply wait at the <- point. This means the gameEvents channel which was created earlier will remain open indefinitely.
 	
-The orchestrate.go file contains the main loop which checks for windows opening and closing and applies the logic of whether to force close the lobby window. The file is actually somewhat large, so for the purpose of this blog I've removed some elements (constant values, default ProcessRetriever and ProcessKiller values, some comments and logging, live updating of config values if the file changes etc).
+The orchestrate.go file contains the main loop which checks for windows opening and closing and applies the logic of whether to force close the lobby window. The file is actually somewhat large, so for the purpose of this blog I've removed some elements (constant values, default ProcessRetriever and ProcessKiller values, some comments and logging, live updating of config values if the file changes etc). If interested, you can see the full code using the repo linked at the top of this post.
 
 The main function, Monitor, will use two helper functions. The first helper function encapsulates the logic of determining whether we're allowed to open the lobby or not:
 
@@ -425,11 +425,23 @@ func Monitor(cfg config.Config, events chan window.ProcessEvent, pr window.Proce
 	}
 }
 ```
-There are a few interesting things here:
-1. We start by making two calls to `go window.MonitorProcess()` - one for the lobby window and one for the game window - which run concurrently as we're calling them as goroutines using the special `go` keyword. When I first got my prototype code working, I actually had a single function that monitored for both window names in the SELECT statement. When I refactored the window package to be more general purpose, I decided to keep it simple and only monitor for a single process. Hence, at this point we make two calls to the function. We could probably refactor the window code to be able to monitor for multiple processes at a time if we needed maximum efficiency, at the cost of additional complexity.
-2. The `for event := range events {` loop operates on the events channel, which is being kept open by the main.go program that calls this function. Hence, this loop will also remain active indefinitely, processing events as they are added to the channel. This is a really interesting aspect of the Go language, and can be contrasted with the use of callback functions in Python.0
+We start by making two calls to `go window.MonitorProcess()` - one for the lobby window and one for the game window - which run concurrently as we're calling them as goroutines using the special `go` keyword. When I first got my prototype code working, I actually had a single function that monitored for both window names in the SELECT statement. When I refactored the window package to be more general purpose, I decided to keep it simple and only monitor for a single process. Hence, at this point we make two calls to the function. We could probably refactor the window code to be able to monitor for multiple processes at a time if we needed maximum efficiency, at the cost of additional complexity.
 
+Next we initiate the `for event := range events {` loop, which operates on the events channel which is being kept open by the main.go program that calls this function. As long as the channel remains open, this loop will continue to run, processing events as they are added to the channel. This is a really interesting aspect of the Go language compared to Python. In the Python environment, concurrency requires importing a library (e.g. asyncio) that will run the loop to monitor for events and call a *callback function* when an event being monitored for occurs. These functions are *cooperatively shceduled*, which means they only yield control when explicitly told to (e.g. using `await` in asyncio), potentially leading to one function being unintentionally blocked by another. In the Go environment, concurrency is a core primative, so no additional library is required. Goroutine functions are *preemptively scheduled*, which means the runtime can stop one function to run another one at any point as needed.
 
+Within the loop itself, we have a few core actions:
+
+* We start by checking if there has been a significant gap between games, in which case we reset the session counter. This avoids the scenario where someone doesn't play all the games in their session, then comes back to a reduced allowance in the next session
+
+* If the event is a game starting, we call the `window.WaitForProcessClose` function to check more frequently (every 1 second) for the game ending. This function is intentionally *not* called as a goroutine, so the regular monitoring (every 15 seconds) isn't called unnecessarily while the game is active.
+
+* If the event is a game ending, we call the *postGame* helper function described earlier, to update the session game count and determine the break duration, then close the lobby window, potentially with a short delay.
+
+* If the event is a lobby opening, we call the *isLobbyBan* helper function described earlier, and close the lobby if a break is being enforced.
+
+This covers off the main application and domain logic. Next, we'll discuss the remaining packages that make up the complete application.
+
+### Other packages
 
 
 
