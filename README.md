@@ -20,6 +20,14 @@ There are draft posts in the [_posts](_posts) folder that don't have a yyyy-mm-d
 
 The dev branch is being used for seeing how the blog looks with a draft of the article I'm currently writing.
 
+Once articles on the dev branch are ready for production, I follow the following steps to merge the changes to the main branch and commit to trigger a rebuild of the blog site:
+
+* Ensure all changes on the dev branch have been committed
+* Switch to the main branch (e.g. in vscode, click on branch name in bottom left corner, or use `git checkout main`)
+* Merge (e.g. in vscode, within the source control panel click ... and select Merge Branch > dev, or use `git merge dev`)
+* Resolve any merge conflicts (should be none)
+* Commit main branch (will rebuild blog site)
+
 # Images
 
 Most of the images in my blog were generated using [leonardo.ai](leonardo.ai), a generative AI tool.

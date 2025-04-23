@@ -15,10 +15,9 @@ In this post I give an overview of the **LoL Monitor** application that I built 
 This includes:
 * An insight into why LoL is so engaging and addictive, and why players can benefit from using LoL Monitor.
 * A dive into the Go programming language that was used to build the tool, contrasting it with the more commonly used Python language.
-* A perspective on software development in the generative AI era, how tools such as Copilot can help developers create products faster, and why their limitations require an ongoing role of human developers.
 * My personal experience using the tool, finding it to be surprisingly effective.
 
-The code is available at [https://github.com/alextgould/lolmonitor](https://github.com/alextgould/lolmonitor).
+The full code is available at [https://github.com/alextgould/lolmonitor](https://github.com/alextgould/lolmonitor).
 
 ## Table of Contents
 
@@ -41,7 +40,7 @@ Let's start with an insight into the complexity and emotional aspects of the gam
 
 ## The ten-dimensional chess board
 
-At face value, LoL seems like a fairly simple game. At opposing corners of the map are two bases, out of which come waves of minions who march down three lanes to defeat the opposing force. Ten champions - five on each team - act to swing the tide of the battle. In general, champions only need to press four buttons to use their active abilities, along with moving and attacking. Champions get gold and/or experience for killing minions and securing objectives that appear over the course of the game. They can use the gold to buy items, and use the experience to improve their abilites, making them stronger as the game progresses. The premise is simple and it's easy for players to get started.
+At face value, LoL seems like a fairly simple game. At opposing corners of the map are two bases, out of which come waves of minions who march down three lanes to defeat the opposing force. Ten champions - five on each team - act to swing the tide of the battle. Champions generally have four active abilities to use, along with moving, basic attacks and a passive ability. Champions get gold and/or experience for killing minions and securing objectives that appear over the course of the game. They can use the gold to buy items, and use the experience to improve their abilites, making them stronger as the game progresses. The premise is simple and it's easy for players to get started.
 
 There are, however, many layers of complexity that make the game so engaging and popular from an esport perspective:
 
@@ -51,9 +50,9 @@ There are, however, many layers of complexity that make the game so engaging and
 
 ![]({{site.baseurl}}/assets/img/lolmonitor/briar_w.png)
 
-* **Items** - Throughout the course of the game, players spend gold on items. There are over 200 different items in the game, which can significantly change the strength of champions and their abilities. This adds an additional layer of complexity as the game progresses. There have also been many significant changes to the items over the years, adding further complexity over the longer term.
+* **Items** - Throughout the course of the game, players spend gold on items. There are over 200 different items in the game, which can significantly change the strength of champions and their abilities. This adds an additional layer of complexity as the game progresses. There have also been many significant changes to the items over the years, adding further complexity across time.
 
-* **Intuition** - The best players in the world will not only have a general knowledge of all of these abilities, but will have a fairly good sense of the *cooldowns*, *range* and *damage* potential of their opponent's abilities, punishing cooldowns by playing more aggressively during a short window, tethering their oppoenents by standing just outside the range of their abilites, baiting them into using their abilities and so on. These values can change as the game progresses (in the example above, Briar's cooldown reduces as she puts more points into the ability, and the damage potential will depend on defensive stats on items purchased by her opponents). The skill ceiling on these aspects is super high.
+* **Intuition** - The best players in the world will not only have a general knowledge of all of these abilities, but will have a fairly good sense of the *cooldowns*, *range* and *damage* potential of their opponent's abilities, punishing cooldowns by playing more aggressively during a short window, tethering their opponents by standing just outside the range of their abilites, baiting them into using their abilities and so on. These values can change as the game progresses (in the example above, Briar's cooldown reduces as she puts more points into the ability, and the damage potential will depend on defensive stats on items purchased by her opponents). The skill ceiling on these aspects is super high.
 
 * **Mental stack** - There are many things to focus on and think about at every instant of the game - from the constantly changing health of minions and the micro movements and ability usage of you and your lane opponent, to the macro movements and strategy of your team (and the enemy team if your team has vision of them) on the map. As humans we have an inherently limited ability to process information - our *mental stack* becomes overloaded and we fail to gather or use the information we need to make the right decisions. Managing our inherent limitations in such an environment (for example through intentional practice or building intuition over many games) can be a complex process.
 
@@ -103,10 +102,12 @@ lolmonitor/
 │   │   └── startup/
 │   │       ├── startup.go      # Uses Windows Registry to auto-load at startup
 │   │       └── startup_test.go 
-│   └── interfaces/             
-│       └── notifications/
-│           ├── toast.go        # Displays windows toast notifications
-│           └── toast_test.go   
+│   ├── interfaces/             
+│   │   └── notifications/
+│   │       ├── toast.go        # Displays windows toast notifications
+│   │       └── toast_test.go   
+│   └── utils/             
+│       └── path.go             
 └── pkg/                        # Public package that can be imported by other modules
     └── window/                 
         ├── close.go            # Forcibly closes windows
@@ -124,25 +125,26 @@ There are a few features in this structure that explain why I took the scenic ro
 
 2. The **internal** folder uses a series of subfolders to achieve "separation of concerns", where we have different packages for each purpose and/or dependency, which are then brought together by a higher level package. This is a common design feature in Go projects, and while the Go community have established [quite a few](https://medium.com/@smart_byte_labs/organize-like-a-pro-a-simple-guide-to-go-project-folder-structures-e85e9c1769c2) different "best practice" structures, these differ mainly in how they choose to structure their internal folder. Such project structures can make it easier to find and update specific sections of the code base and let you more easily "plug and play" different components (e.g. swap one database for another).
 
-    While it was probably overkill for such a small project, I refactored the code to have four separate packages in the internal folder:
+    While it was probably overkill for such a small project, I refactored the code to have several separate smaller packages in the internal folder:
       * **application** - runs the main loop, monitoring for windows using the windows package from the *pkg* folder and applying the domain "logic" of when to close the lobby (in bigger projects a separate *domain* folder might also be split out for this logic)
       * **startup** - deals with the windows registry; this sits in the *infrastructure* folder, which typically contains packages that relate to technology-specific tools that the application uses, such as databases, file systems, operating system or external APIs
       * **notifications** - handles the windows toast notifications; this sits in the *interfaces* folder, which typically contains packages that allows users (or systems) to interact with the application
-      * **config** - creates and loads the config.json file; this could also have been placed within the *infrastructure* folder, but it's also commonly split out
+      * **config** - creates and loads the config.json file; this could also have been placed within the *infrastructure* folder, but it's also commonly split out.
+	  * **utils** - contains general purpose functions used by multiple other packages; this could alternatively live within the *pkg* folder for use in other modules.
 
     In Python, it's common to have more code within a single .py file and/or place all the source code into a single /src folder. The Go style feels more verbose, particularly for a small module like this one, but I can already feel the benefits of being able to feel confident in the various areas within the codebase. The Go style feels much more scalable and robust.
 
-3. For almost every .go file there is a corresponding **_test.go** file. In contrast to Python, where error handling and unit tests are "best practice" but are often more of an afterthought, in Go these aspects are first-class citizens. Almost every function will return an error value to be handled by the function that calls it. The code, which has been segmented into distinct packages, will be tested in isolation, so that when a package is used by a higher level package, you can be fairly confident it will all work. There's a built in testing package with conventions such as having corresponding _test.go files which contain a series of functions that start with Test and can be run (at least in vscode) with a button click, in isolation or as a batch.
+3. For almost every .go file there is a corresponding **_test.go** file. In contrast to Python, where error handling and unit tests are "best practice" but are often more of an afterthought, in Go these aspects are first-class citizens. Almost every function will return an error value to be handled by the function that calls it. The code, which has been segmented into distinct packages, will be tested in isolation, so that when a package is used by a higher level package, you can be fairly confident it will all work. There's a built in testing package with conventions such as having corresponding _test.go files which contain a series of functions that start with "Test" and can be run (at least in vscode) with a button click, in isolation or as a batch.
 
     In the case of the *windows* package, creating the test files actually involved a decent amount of refactoring in itself. Initially, my test files required me to manually open and close windows, which was a slow process and would have been a pain when testing time of day exclusion periods. In order to test this properly, I had to adjust the code to use an *Interface*, which could be set to use either a real process retriever (which looked for actual processes running in the Windows operating system) or a Mock[^1] process retriever (which simulated processes being opened and closed). Similarly, functions that use the current time in production can be written to use a parameterised time value, which is set to the current time in production but can be artificially set in the test environment.
 
-	While this took some additional time, both in getting used to the way testing works and to actually implement tests, I can see how this approach can lead to much greater confidence in your code. I found it useful to have Copilot create some sensible tests, which I could then adjust as needed. Creating the tests is often relatively straightforward but can be a little tedious, so it's nice to outsource it and have it done immediately. It's also good to have multiple eyes involved, as sometimes Copilot would create tests that I wouldn't have and vice versa. I think with more experience, it would also take less time as you would know to use interfaces and parameterised values in advance, making it much easier to write the tests.
+	While this took some additional time, both in getting used to the way testing works and to actually implement tests, I can see how this approach can lead to much greater confidence in your code. I found it useful to have Copilot create some sensible tests, which I could then adjust as needed. Creating the tests is often relatively straightforward but can be a little tedious, so it's nice to outsource it and have it done immediately. It's also good to have multiple eyes involved, as sometimes Copilot would create tests that I wouldn't have and vice versa. I think with more experience, it would also take less time as you would know to use interfaces and parameterised values in advance, meaning there would be less refactoring involved and tests would be easier to create.
 
 With our project well structured, we can now look at some of the individual Go files that make the magic happen.
 
 ## Let's Go Go Go!
 
-### WMI... Whale-sized Marshmallow Initiative?
+### WMI... the Whale-sized Marshmallow Initiative?
 
 To monitor for windows opening and closing, we can use the Windows Management Instrumentation (WMI) infrastructure. This is essentially a table which we can query using Windows Query Language (WQL), which is effectively SQL.
 
@@ -240,7 +242,7 @@ func MonitorProcess(name string, events chan<- ProcessEvent, delaySeconds int, p
 }
 ```
 
-In the above function, we use a *channel* to capture the event of a process opening or closing. We first define the ProcessEvent struct to hold our events. A struct is similar to a Python class, in that it bundles related data together and can have methods, differs in that it lacks the inheritence, *self* and *\_\_init\_\_* features. When there's a change in the results of the WMI SELECT query, we capture this as an event and send it to the *events* channel. This channel will be created by the package that kicks off the MonitorProcess function, which will also contain an infinite loop to process events as they arise.
+In the above function, we use a *channel* to capture the event of a process opening or closing. We first define the ProcessEvent struct to hold our events. A struct is similar to a Python class, in that it bundles related data together and can have methods, but differs in that it lacks the inheritence, *self* and *\_\_init\_\_* features. When there's a change in the results of the WMI SELECT query, we capture this as an event and send it to the *events* channel. This channel will be created by the package that kicks off the MonitorProcess function, which will also contain an infinite loop to process events as they arise.
 
 The last aspect of the windows package is the task killer. Our events contain the process id, which we can use with the taskkill command to close a window:
 
@@ -250,8 +252,6 @@ func (w WMIProcessKiller) KillProcess(pid uint32) error {
 	return cmd.Run()
 }
 ```
-
-As with the ProcessRetriever, this is really just a single line of code, with a lot of extra code to create an interface and a mock version for testing, handling of errors and so on.
 
 With our window package ready, we can start using it in our main application.
 
@@ -296,9 +296,9 @@ func main() {
 
 There are two interesting new things here:
 
-1. We use `make` to create the gameEvents channel that will collect events from our WMI monitoring process. The second parameter in the make function is the buffer size of the channel, which allows for multiple unprocessed events to exist in the channel at once. In normal operation, we probably won't see 10 events between checks, but this figure gives us a safety margin, which might be useful for example when testing.
+1. We use `make` to create the gameEvents channel that will collect events from our WMI monitoring process. The second parameter in the make function is the buffer size of the channel, which allows for multiple unprocessed events to exist in the channel at once. In normal operation, we probably won't see 10 events between checks, but this figure gives us a safety margin, which might be useful, for example, when testing.
 
-    Now is probably a reasonable time to note that Go uses static typing, but := allows you to create variables as you go, so long as you use = the next time the variable value is set.
+    Now is probably a reasonable time to observe that Go uses static typing, but := allows you to create typed variables as you go, so long as you use = the next time the variable value is set.
 
 2. We use the `go` keyword when calling application.Monitor to create a goroutine, which is a lightweight function that can run concurrently with other functions. This is one of the key features and strengths of the Go language - it has built-in concurrency which allows Go programs to perform many tasks simultaneously without much overhead. This contrasts with Python, where external libraries such as asyncio are needed to provide an event loop for managing asynchronous tasks, which is more complex and involves more overhead.
 
@@ -328,7 +328,7 @@ func isLobbyBan(cfg config.Config, currentTime, endOfBreak time.Time) (bool, err
 ```
 By splitting this out, it's easy to test, passing dummy config values and a currentTime value which isn't actually the real current time. Note when comparing time values, `currentTime.Before(endOfBreak)` is a Go way of doing a currentTime < endOfBreak comparison using time.Time values, whereas currentHM >= cfg.DailyEndTime is actually doing string comparison on the times formatted as "hh:ss".
 
-The second helper function applies the logic to decide whether a game counts (or is a remake), update the game counter and determine the duration of the break based on whether it's just the end of a game or the end of session:
+The second helper function applies the logic to decide whether a game counts (or is a remake - a brief game where a player fails to join and the game is not played out), update the game counter and determine the duration of the break based on whether it's just the end of a game or the end of session:
 
 ```go
 // post game logic to determine the new sessionGames and endOfBreak values
@@ -358,7 +358,10 @@ func postGame(cfg config.Config, currentTime, gameStartTime, gameEndTime time.Ti
 }
 ```
 
-We see some more time-based operations here: `gameEndTime.Sub(gameStartTime)` calculates the game duration as gameEndTime - gameStartTime, `gameEndTime.Add(breakDuration)` calculates the end of break time as gameEndTime + breakDuration, and `time.Duration(cfg.BreakBetweenSessionsMinutes)` converts an integer (e.g. 15) into a time value (15 nanoseconds), which is multiplied by the number of nanoseconds in a minute (`time.Minute`).
+We see some more time-based operations here: 
+* `gameEndTime.Sub(gameStartTime)` calculates the game duration as gameEndTime - gameStartTime
+* `gameEndTime.Add(breakDuration)` calculates the end-of-break time as gameEndTime + breakDuration
+* `time.Duration(cfg.BreakBetweenSessionsMinutes)` converts an integer (e.g. 15) into a time value (15 nanoseconds), which is multiplied by the number of nanoseconds in a minute (`time.Minute`)
 
 The two helper functions are called from the main Monitor function below. Note that this function starts with an uppercase letter, whereas the helper functions above started with lower case letters. This means unlike the other two functions, this function will appear and be available when importing this package within main.go:
 
@@ -441,11 +444,290 @@ Within the loop itself, we have a few core actions:
 
 This covers off the main application and domain logic. Next, we'll discuss the remaining packages that make up the complete application.
 
-### Other packages
+### Utils
 
+This tiny package has a single function in it which is used by both the Config and Notifications packages, to return the directory and/or filename of the currently running executable.
 
+```go
+func GetCurrentPath(includeFilename bool) (string, error) {
+	exePath, err := os.Executable()
+	if err != nil {
+		exePath, err = os.Getwd()
+		if err != nil {
+			return "", err
+		}
+	}
+
+	exePath, err = filepath.Abs(exePath)
+	if err != nil {
+		return "", err
+	}
+
+	if includeFilename {
+		return exePath, nil
+	}
+	return filepath.Dir(exePath), nil
+}
+```
+
+While it seems somewhat trivial, this function was added to resolve an interesting practical implementation issue. When a compiled .exe file is run manually, the working directory is the same directory as the .exe file, but this is not the case when the .exe file is run as a result of a Windows registry key. For this reason, the config settings, which are located in the config.json file within the same folder as the .exe file, won't be picked up correctly if only the file name is used; a full path is required. In this function, we use `os.Executable()` to get the path of the running executable, with a fallback to the current working directory (e.g. if using `go run`), convert this to an absolute path, and optionally exclude the filename and just return the path using `.Dir`.
+
+### Config
+
+The config package acts both as a central source for the inputs required for the other packages, as well as the main way that users can interact with the application, as the application is designed to run silently in the background.
+
+We start by defining a Config struct, which houses the key values that drive our application logic. We also create a defaultConfig variable, which is a Config with hard coded values. This is *somewhat* analogous to the Python concept of creating a class and initialising its parameters with an \_\_init\_\_ function.
+
+```go
+type Config struct {
+	BreakBetweenGamesMinutes    int    `json:"breakBetweenGamesMinutes"`
+	BreakBetweenSessionsMinutes int    `json:"breakBetweenSessionsMinutes"`
+	GamesPerSession             int    `json:"gamesPerSession"`
+	MinimumGameDurationMinutes  int    `json:"minimumGameDurationMinutes"`
+	LobbyCloseDelaySeconds      int    `json:"lobbyCloseDelaySeconds"`
+	DailyStartTime              string `json:"dailyStartTime"`
+	DailyEndTime                string `json:"dailyEndTime"`
+	LoadOnStartup               bool   `json:"loadOnStartup"`
+}
+
+// DailyStartTime and DailyEndTime e.g. "04:00" "22:00"
+var defaultConfig = Config{
+	BreakBetweenGamesMinutes:    5,
+	BreakBetweenSessionsMinutes: 60,
+	GamesPerSession:             3,
+	MinimumGameDurationMinutes:  15,
+	LobbyCloseDelaySeconds:      30,
+	DailyStartTime:              "00:00",
+	DailyEndTime:                "00:00",
+	LoadOnStartup:               true,
+}
+```
+
+Next we define a function to save config json files:
+
+```go
+func defaultPath(filename string) (string, error) {
+	if filename == "" {
+		exePath, err := utils.GetCurrentPath(false)
+		if err != nil {
+			return "", err
+		}
+		filename = filepath.Join(exePath, "config.json")
+	}
+	return filename, nil
+}
+
+func SaveConfig(filename string, cfg Config) error {
+
+	// use default path and filename unless specified explicitly
+	filename, err := defaultPath(filename)
+	if err != nil {
+		return err
+	}
+
+	// create config file
+	file, err := os.Create(filename)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	// save cfg in json format
+	encoder := json.NewEncoder(file)
+	encoder.SetIndent("", "  ") // Pretty-print JSON
+	return encoder.Encode(cfg)
+}
+```
+
+The defaultPath function uses the GetCurrentPath function from the utils package to create a full path to the config.json file in the directory where the code is being run.
+
+The SaveConfig function uses `os.Create` to create a new file. Assuming this works, the `defer file.Close()` line will close the file at the end of the function. This is a nice feature of Go, as you don't require an additional line to close the file, or an extra indenting level as would be the case using `With` when opening a file in Python. It also ties in with Go's *panic* failure mode, which is used to gracefully unwind the stack when there's an unexpected failure, so the file will still be closed when an unexpected error occurs. The function then uses a json encoder to encode the Config value into a json formatted file.
+
+Next we have a function to load config files:
+
+```go
+func LoadConfig(filename string) (Config, error) {
+
+	// use default path and filename unless specified explicitly
+	filename, err := defaultPath(filename)
+	if err != nil {
+		return Config{}, err
+	}
+
+	// open file, creating a new config file if one is not found
+	file, err := os.Open(filename)
+	if err != nil {
+		log.Println("Config file not found, creating default config...")
+		SaveConfig(filename, defaultConfig)
+		return defaultConfig, nil
+	}
+	defer file.Close()
+
+	// load json into config
+	decoder := json.NewDecoder(file)
+	config := defaultConfig
+	err = decoder.Decode(&config)
+	if err != nil {
+		log.Printf("Error when decoding config file: %v", err)
+		log.Println("Invalid config file, resetting to default values...")
+		SaveConfig(filename, defaultConfig)
+		return defaultConfig, nil
+	}
+
+	return config, nil
+}
+```
+
+This function attempts to open the config file with `os.Open`. If it doesn't exist - which would typically only be the case when a compiled .exe is downloaded as a single file - it will use the defaultConfig variable and the SaveConfig function to create a new one. The function then uses a decoder to read the json file into a Config struct.
+
+The config package also includes a small `CheckConfigUpdated` function, which is used to ensure changes made to the config file are picked up while the program is running:
+
+```go
+func CheckConfigUpdated(filename string, t time.Time) (bool, error) {
+
+	// use default path and filename unless specified explicitly
+	filename, err := defaultPath(filename)
+	if err != nil {
+		return false, err
+	}
+
+	// check if date modified is after time t
+	fileInfo, err := os.Stat(filename)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, fmt.Errorf("unable to find config file: %s", filename)
+		}
+		return false, err
+	}
+
+	// Compare the file's modification time with the provided time
+	return fileInfo.ModTime().After(t), nil
+}
+```
+
+This function uses `os.Stat` to check the last modified time, and if this fails, uses `os.IsNotExist` to check if the file exists and provide a more useful error message. This was useful, for example, when debugging the temporary folder issue described in the [utils](#utils) section.
+
+### Startup
+
+The startup package adds or removes an item in the Windows registry, which allows the program to start automatically when the user logs into Windows.
+
+Using the Windows registry proved to be surprisingly easy. I initially tried to use Windows Task Scheduler for this purpose (using `exec.Command("schtasks", ...)`), but this approach proved ineffective; the Microsoft documentation was lacking and even when creating user-only tasks with /RU, it seemed to require admin privileges.
+
+The core code is in the *addToStartup*, *removeFromStartup* and *startupEntryExists* helper functions:
+
+```go
+import (
+	"golang.org/x/sys/windows/registry"
+)
+
+// create registry key
+func addToStartup(taskName, exePath string) error {
+	key, _, err := registry.CreateKey(
+		registry.CURRENT_USER,
+		`Software\Microsoft\Windows\CurrentVersion\Run`,
+		registry.SET_VALUE,
+	)
+	if err != nil {
+		return fmt.Errorf("failed to open registry key: %v", err)
+	}
+	defer key.Close()
+
+	err = key.SetStringValue(taskName, exePath)
+	if err != nil {
+		return fmt.Errorf("failed to set registry value: %v", err)
+	}
+
+	slog.Info("Successfully added to startup", "taskName", taskName, "exePath", exePath)
+	return nil
+}
+
+// remove registry key
+func removeFromStartup(taskName string) error {
+	key, err := registry.OpenKey(
+		registry.CURRENT_USER,
+		`Software\Microsoft\Windows\CurrentVersion\Run`,
+		registry.SET_VALUE,
+	)
+	if err != nil {
+		return err
+	}
+	defer key.Close()
+
+	return key.DeleteValue(taskName)
+}
+
+// check if regkey exists, returns a bool and the exePath if it exists
+func startupEntryExists(taskName string) (bool, string, error) {
+	key, err := registry.OpenKey(
+		registry.CURRENT_USER,
+		`Software\Microsoft\Windows\CurrentVersion\Run`,
+		registry.QUERY_VALUE,
+	)
+	if err != nil {
+		return false, "", err
+	}
+	defer key.Close()
+
+	exePath, _, err := key.GetStringValue(taskName)
+	if err == registry.ErrNotExist { // check worked and regkey doesn't exist
+		return false, "", nil
+	}
+	if err != nil { // check failed
+		return false, "", err
+	}
+	return true, exePath, nil // check worked and regkey exists
+}
+```
+
+These functions use `registry.OpenKey` to access an entry at `Software\Microsoft\Windows\CurrentVersion\Run` in the Windows registry, which lets us add, edit or remove a key, which drives the automatic starting of our program when the user logs in.
+
+Two functions, `ConfirmLoadOnStartup` and `ConfirmNoLoadOnStartup` use these functions to ensure the registry key either exists and is up to date, or does not exist, based on the preference in the config file. The logic is fairly simple, so I've omitted these from the write up. If interested, you can see the full code using the repo linked at the top of this post.
+
+### Notifications
+
+The core code used to send Windows toast notifications is relatively straightforward:
+
+```go
+import (
+	"github.com/go-toast/toast"
+)
+
+func SendNotification(title, message string, duration_long bool) {
+	// short duration is ~7 sec, long duration is ~25 sec
+	duration := toast.Short
+	if duration_long {
+		duration = toast.Long
+	}
+	notification := toast.Notification{
+		AppID:   "LoL Monitor",
+		Title:   title,
+		Message: message,
+		Duration: duration,
+	}
+	err := notification.Push()
+	if err != nil {
+		log.Printf("Failed to send notification: %v", err)
+	}
+}
+```
+
+While SendNotification can be used directly by other packages, it's actually used mainly by the notifications package itself, which includes additional functions to send notifications when the lobby is about to close, is being closed at the end of a game, or is being closed due to a ban being enforced. Having these functions within the notifications package makes it easier to find, test and adjust them. These functions are then called by the orchestrate package as needed. For example, here is one such function:
+
+```go
+func LobbyBlocked(endOfBreak time.Time) {
+	notification_title := "You're on a break!"
+	notification_text := fmt.Sprintf("Try again in %.0f minutes at %v",
+		math.Ceil(time.Until(endOfBreak).Minutes()),
+		endOfBreak.Format("3:04pm"))
+	SendNotification(notification_title, notification_text, false)
+}
+```
+
+That's the last of the Go code. Next we'll briefly touch on some additional things that were needed to finish off the project.
 
 ## Moving from prototype to polished product
+
+While it's great to have a working application, it's even better to make it accessable to others. This mainly involved updating the readme file within the Github repo to include useful information, including what the default settings in the config.json file do and how to customise them, as well as answers to questions that users of the application might have. This information can be found in the readme of the repo linked at the top of this post, and is replicated below.
 
 ### Default settings
 
@@ -497,26 +779,27 @@ This project is open source, so you're free to look through the code - or ask Ch
 
 Thanks! It was made using Generative AI and any resemblances to the actual League of Legends logo are purely coincidental 😛. The three golden squares symbolise the ["3 block"](https://www.youtube.com/watch?v=6K1xBJCjxi0&ab_channel=BrokenByConcept) process, and how this helps contain the League of Legends gaming experience.
 
-
-
-
-
-
 ## It's kibble time!
 
-Given my personal interesting in the subject matter, I decided it was only appropriate I did a bit of [dogfooding](https://en.wikipedia.org/wiki/Eating_your_own_dog_food) before I wrote this blog post. This served to iron out a few wrinkles in the product and improve its design.
+Given my personal interest in the subject matter, I decided it was only appropriate I did a bit of [dogfooding](https://en.wikipedia.org/wiki/Eating_your_own_dog_food) before I finished this blog post. This served to iron out a few wrinkles in the product - such as the config file [not being picked up]((#utils)) when the program was run by the Windows registry - and improve its design - primarily the layout and contents of the toast notifications.
 
-Before firing it up for the first time, I felt a mixure of fear and skepticism, which is funny given I'm the developer, but it's testament to the emotional side of playing LoL. I was worried it wouldn't work; that I would just override the tool and play another game and the whole thing would be a waste of time.
+My first-hand experience of the application produced some interesting results:
 
-The first evening I went 0-3 (i.e. I lost every game) with an A rating or higher in every game, so there's a decent chance it was my team letting me down, which can be frustrating. What was surprising was how I felt when the tool kicked in and told me I had 10 seconds to look at the lobby and then had to take a break. I felt *relieved*. I was suddenly more aware of how I was feeling both physically and emotionally. After the second game, I was actually looking forward to finishing my third game and being kicked off - win or loss - because I knew it was an opportunity to go play a Cosy game or do a bit of coding. It was surprisingly effective.
+1. Despite going into the experiment with a sense of fear and skepticism - anticipating that I would just override the tool - I actually found it to be surprisingly effective at helping me to resist the urge to play more than I wanted to. There was a real opportunity at the end of each game to reassess whether I wanted to continue playing and consider alternatives. With my cognitive resources running low at the end of a game, the easy and mindless option - which was previously clicking the "Continue" button - was now to let the program close itself, and take a short break.
 
-TODO: update towards the end of the week
+2. I felt a surprising sense of *relief* when coming out of emotionally charged games, knowing that I was going to take a small break. I was more conscious of how I was feeling physically and emotionally, rather than being caught up in the outcome of the game. I felt much more calm and focused going into the next game.
+
+3. Just as it's easy to log in or click the "Continue" button out of habit, it quickly became a habit to take a break between games. Even when I manually closed lolmonitor.exe while I was debugging and despite it not being enforced, I still felt like taking a short break.
+
+It was quite useful to go through the process of being a user and a developer at the same time. More generally, the closer you can get to your customers, the better the product you can create. Being a customer yourself is about as close as you can get.
 
 ## Conclusion
 
-Wrap up and reinforce the main takeaway (probably Thai), key points, next steps, call to action etc.[^1]
+I had a lot of fun building this application. It was my first experience of the Go programming language, and I made the most of it, delving into project structuring best practices and leveraging interesting packages that let me use the Windows registry and toast notification functionality.
 
-Future development - Mac?
+The next step for this project is to reach out to the folks at [Broken by Concept](https://weteachleague.com/podcast/) and see if any of their members are interested in trying it out. It would be good to get some beta testers to ensure the application is as bullet proof as possible. It's also currently only available to Windows users, but there's potential to develop a Mac version.
+
+That's all for now. I hope you've enjoyed the insights from this project as much as I enjoyed building it!
 
 ---
 <small>Footnotes:</small>
