@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "LoL Monitor: helping players manage their gaming sessions"
-date: 2025-04-12
+date: 2025-04-23
 description: "Do you want to \"three block\" your League of Legends gaming sessions, but struggle to maintain self control? This tool helps you by automatically closing the lobby for you."
 img: lolmonitor/lolmonitor_wide_azure.jpg
 tags: [Project] # Personal, Opinion, Technical, Review, Project, Testing

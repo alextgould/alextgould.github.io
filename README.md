@@ -24,7 +24,7 @@ Once articles on the dev branch are ready for production, I follow the following
 
 * Ensure all changes on the dev branch have been committed
 * Switch to the main branch (e.g. in vscode, click on branch name in bottom left corner, or use `git checkout main`)
-* Merge (e.g. in vscode, within the source control panel click ... and select Merge Branch > dev, or use `git merge dev`)
+* Merge (e.g. in vscode, within the source control panel, click ... under Repositories and select Branch > Merge > dev, or use `git merge dev`)
 * Resolve any merge conflicts (should be none)
 * Commit main branch (will rebuild blog site)
 
