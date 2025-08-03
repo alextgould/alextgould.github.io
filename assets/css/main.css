@@ -1365,3 +1365,20 @@ a.newer-posts:hover {
 .language-go .k + .n + .o + .n { /* var foo = bar */
   color: #001080; /* Deep blue */
 }
+
+/* ---------- Added by AG along the way ---------- */
+
+.bordered-and-centered-image {
+    display: block; /* Make the image a block element */
+    margin: 0 auto;  /* Center the image itself */
+    border: 1px solid #ccc;
+    padding: 2px;
+    max-width: 100%;
+    height: auto;
+}
+
+.center-caption {
+    display: block; /* Make the small tag a block element to center it */
+    text-align: center; /* Center the text inside the block */
+    margin-top: 5px; /* Add some space above the caption */
+}
