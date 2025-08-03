@@ -97,7 +97,7 @@ bundle exec jekyll serve
   * The date field in the front matter can differ from the date used in the file path. The file path is used for sorting posts and generating permalinks (when using default Jekyll settings). Publish dates are based on the front matter; according to ChatGPT future dates aren't published unless future: true is included in _config.yml, from testing this is indeed the case (noting this applies to the front matter date and not the filename date). The front matter date may also be used for RSS feeds.
 
 * Created a few simple posts mainly for testing purposes
-  * images need to be in a wide perspective, not square perspective, manually trim to XxX pixels
+  * images need to be in a wide perspective, not square perspective, manually trim to be a 2:1 width:height ratio
     * ~293 x 179 (1.64:1) with my browser maximised or ~224x177 (1.27:1) if I reduce browser width significantly
     * for a 1024x1024 square image, reducing to 1024x620 (with 620=1024/1.65) gives a nice displayed image
     * the sizes above were on the home page; in the actual posts, the header image was ~1000x500, so 2:1
